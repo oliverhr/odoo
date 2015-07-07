@@ -1118,6 +1118,9 @@ function openerp_pos_widgets(instance, module){ //module is instance.point_of_sa
             this.unsent_orders_popup = new module.UnsentOrdersPopupWidget(this,{});
             this.unsent_orders_popup.appendTo(this.$el);
 
+            this.pademobile_popup = new module.PademobilePopupWidget(this,{});
+            this.pademobile_popup.appendTo(this.$el);
+
             // --------  Misc ---------
 
             this.close_button = new module.HeaderButtonWidget(this,{
@@ -1185,6 +1188,7 @@ function openerp_pos_widgets(instance, module){ //module is instance.point_of_sa
                     'error-traceback': this.error_traceback_popup,
                     'confirm': this.confirm_popup,
                     'unsent-orders': this.unsent_orders_popup,
+                    'pademobile': this.pademobile_popup,
                 },
                 default_screen: 'products',
                 default_mode: 'cashier',
