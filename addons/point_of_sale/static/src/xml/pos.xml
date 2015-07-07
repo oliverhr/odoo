@@ -1151,4 +1151,56 @@
         </div>
     </t>
 
+    <!-- Pademobile Payment Popup -->
+    <t t-name="PademobilePopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-pademobile">
+                <p class="message"><t t-esc=" widget.message || 'Pagar con Pademobile' " /></p>
+                <p class="comment"><t t-esc=" widget.comment || 'Ingrese la información para realizar el cobro' "/>.</p>
+
+                <hr/>
+                <br/>
+
+                <p class="comment"><t t-esc=" widget.message_phone || 'Ingrese el número telefónico de su cliente' "/>.</p>
+                <table align="center">
+                    <tr>
+                        <td>
+                            <label for="pdm_phone">Telefono:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="pdm-telefono-text" name="pdm_phone" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="button" id="pdm-cobrar-button" value="Cobrar" />
+                        </td>
+                    </tr>
+                </table>
+
+
+                <p class="comment"><t t-esc=" widget.message_otp || 'Ingrese el OTP que su cliente recibio en móvil' "/>.</p>
+                <table align="center">
+                    <tr>
+                        <td>
+                            <label for="pdm_otp">OTP:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="pdm-otp-text" name="pdm_otp" maxlength="10" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="button" id="pdm-confirmar-button" value="Confirmar" maxlength="6" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="footer">
+                    <div class="button cancel">Cancel</div>
+                </div>
+            </div>
+        </div>
+    </t>
+
 </templates>
