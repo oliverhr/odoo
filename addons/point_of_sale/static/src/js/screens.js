@@ -1391,6 +1391,20 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                 selected_line.node.querySelector('input').value = selected_line.amount.toFixed(2);
             }
         },
+        pademobile_payment_lines: function() {
+            var currentOrder = this.pos.get('selectedOrder');
+            var plines = currentOrder.get('paymentLines').models;
+            var has_lines = 0;
+
+            $.each(plines, function (index, value) {
+                if (value.get_type() === 'bank' && value.get_code() === 'PADEM')
+                {
+                    has_lines += 1;
+                }
+            });
+
+            return has_lines > 0;
+        },
     });
 
 
