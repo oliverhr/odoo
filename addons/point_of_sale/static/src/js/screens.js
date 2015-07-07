@@ -1086,7 +1086,14 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                     name: 'validation',
                     icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
                     click: function(){
-                        self.validate_order();
+                        if(!self.valid_order()) {
+                            return;
+                        }
+                        if(self.pademobile_payment_lines()) {
+                            self.pademobile_payment();
+                        } else {
+                            self.validate_order();
+                        }
                     },
                 });
 
