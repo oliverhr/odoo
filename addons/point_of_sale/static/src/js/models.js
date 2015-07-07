@@ -983,6 +983,9 @@ function openerp_pos_models(instance, module){ //module is instance.point_of_sal
         get_type: function(){
             return this.cashregister.journal.type
         },
+        get_code: function(){
+            return this.cashregister.journal.code
+        },
         // returns the associated cashregister
         //exports as JSON for server communication
         export_as_JSON: function(){
