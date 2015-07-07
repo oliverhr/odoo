@@ -1405,8 +1405,30 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
 
             return has_lines > 0;
         },
-    });
+        pademobile_payment: function() {
+            var self = this;
+            var currentOrder = this.pos.get('selectedOrder');
+            var plines = currentOrder.get('paymentLines').models;
 
+            $.each(plines, function (index, value) {
+                if (value.get_amount() > 0 && value.get_code() === 'PADEM')
+                {
+                    self.pos_widget.screen_selector.prompt_popup('pademobile', {
+                        ammount: value.get_amount(),
+                        success: function() {
+                            self.validate_order();
+                        },
+                        error: function() {
+                            self.pos_widget.screen_selector.show_popup('error',{
+                                message: _t('Pago Pademobile'),
+                                comment: _t('No se puedo procesar el pago con Pademoobile')
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
 
     /**
     * Pademobile Payment Screen Popup Widget
