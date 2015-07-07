@@ -1381,4 +1381,159 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
             }
         },
     });
+
+
+    /**
+    * Pademobile Payment Screen Popup Widget
+    */
+    module.PademobilePopupWidget = module.PopUpWidget.extend({
+        template: 'PademobilePopupWidget',
+        show: function(options) {
+
+            var self = this;
+            this._super();
+
+            this.message = options.message || '';
+            this.comment = options.comment || '';
+            this.renderElement();
+
+            this.$('.button.cancel').click(function(){
+                self.pos_widget.screen_selector.close_popup();
+                if( options.cancel ){
+                    options.cancel.call(self);
+                }
+            });
+
+            var ammount = options.ammount;
+            var error_request = function(request, status, error) {
+                console.log(request);
+                console.log(status);
+                console.log(error);
+                if (options.error) {
+                    options.error.call(self);
+                }
+            };
+
+            /**
+             * Custom beahavior for Payments
+             */
+            var id_sesion;
+            var id_usuario;
+            var codtran;
+            var telefono;
+
+            //var uri = 'http://192.168.0.101';
+            //var port = '52000';
+            var uri = 'http://desarrollo.pademobile.com';
+            var port = '3052';
+            var timeout_seconds = 5 * 1000;
+            var url = uri + ':' + port + '/ws/';
+            console.log(url);
+
+            var login_data = {
+                nick: 'tpv',
+                pin: '0000',
+                idioma: 'es',
+                codigo_pais: 'MX'
+            };
+            $.ajax({
+                url: url + 'users.py/login',
+                dataType: 'jsonp',
+                timeout: timeout_seconds,
+                data: login_data,
+                success: function(response) {
+                    console.log('---- Login ----');
+                    console.log(response);
+                    console.log('---------------');
+
+                    if (response.status) {
+                        id_sesion = response.id_sesion;
+                        id_usuario = response.id_usuario;
+                    }
+                },
+                error: function(request, status, error) {
+                    error_request(request, status, error);
+                }
+            });
+
+            /**
+             * Comprar y solicitar OTP
+             */
+            this.$('#pdm-cobrar-button').on('click', function() {
+
+                telefono = $('#pdm-telefono-text').val();
+
+                var comprar_data = {
+                    id_sesion: id_sesion,
+                    id_usuario: id_usuario,
+                    codigo_pais: 'MX',
+                    pin: '0000',
+                    concepto: 'Compra desde TPV',
+                    telefono: telefono,
+                    importe: ammount
+                };
+
+                $.ajax({
+                    url: url + 'movimientos.py/comprar',
+                    dataType: 'jsonp',
+                    timeout: timeout_seconds,
+                    data: comprar_data,
+                    success: function(response) {
+                        console.log('---- Solicitar cargo ----');
+                        console.log(response);
+                        console.log('-------------------------');
+
+                        if (response.status) {
+                            codtran = response.codtran;
+                        }
+                    },
+                    error: function(request, status, error) {
+                        error_request(request, status, error);
+                    }
+                });
+            });
+
+            /**
+             * Validar OTP
+             */
+            this.$('#pdm-confirmar-button').on('click', function () {
+                var validar_data = {
+                    codtran: codtran,
+                    codigo_pais: 'MX',
+                    telefono: telefono,
+                    otp: $('#pdm-otp-text').val()
+                };
+                $.ajax({
+                    url: url + 'firma.py/firmar',
+                    dataType: 'jsonp',
+                    timeout: timeout_seconds,
+                    data: validar_data,
+                    success: function( response ) {
+                        console.log('---- Validar OTP ----');
+                        console.log(response);
+                        console.log('---------------------');
+
+                        if (response.status) {
+                            self.pos_widget.screen_selector.close_popup();
+                            if( options.success ) {
+                                options.success.call(self);
+                            }
+                        } else {
+                            if (response.error == 'otp_incorrecto') {
+                                alert('OTP Incorrecto');
+                            } else {
+                                self.pos_widget.screen_selector.close_popup();
+                                if (options.error) {
+                                        options.error.call(self);
+                                }
+                            }
+                        }
+                    },
+                    error: function(request, status, error) {
+                        error_request(request, status, error);
+                    }
+                });
+            });
+        },
+    });
 }
