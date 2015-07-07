@@ -1262,12 +1262,8 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
             var currentOrder = this.pos.get('selectedOrder');
             return (currentOrder.getTotalTaxIncluded() < 0.000001
                    || currentOrder.getPaidTotal() + 0.000001 >= currentOrder.getTotalTaxIncluded());
-
         },
-        validate_order: function(options) {
-            var self = this;
-            options = options || {};
-
+        valid_order: function() {
             var currentOrder = this.pos.get('selectedOrder');
 
             if(currentOrder.get('orderLines').models.length === 0) {
@@ -1275,7 +1271,7 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                     'message': _t('Empty Order'),
                     'comment': _t('There must be at least one product in your order before it can be validated'),
                 });
-                return;
+                return false;
             }
 
             var plines = currentOrder.get('paymentLines').models;
@@ -1285,12 +1281,12 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                         'message': _t('Negative Bank Payment'),
                         'comment': _t('You cannot have a negative amount in a Bank payment. Use a cash payment method to return money to the customer.'),
                     });
-                    return;
+                    return false;
                 }
             }
 
             if(!this.is_paid()){
-                return;
+                return false;
             }
 
             // The exact amount must be paid if there is no cash payment method defined.
@@ -1304,9 +1300,17 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                         message: _t('Cannot return change without a cash payment method'),
                         comment: _t('There is no cash payment method available in this point of sale to handle the change.\n\n Please pay the exact amount or add a cash payment method in the point of sale configuration'),
                     });
-                    return;
+                    return false;
                 }
             }
+
+            return true;
+        },
+        validate_order: function(options) {
+            var self = this;
+            options = options || {};
+
+            var currentOrder = this.pos.get('selectedOrder');
 
             if (this.pos.config.iface_cashdrawer) {
                 this.pos.proxy.open_cashbox();
