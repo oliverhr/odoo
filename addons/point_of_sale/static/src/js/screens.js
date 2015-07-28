@@ -1451,6 +1451,9 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
             this.comment = options.comment || '';
             this.renderElement();
 
+            $('#first').show();
+            $('#second').hide();
+
             this.$('.button.cancel').click(function(){
                 self.pos_widget.screen_selector.close_popup();
                 if( options.cancel ){
@@ -1538,6 +1541,8 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                         console.log('-------------------------');
 
                         if (response.status) {
+                            $('#first').hide();
+                            $('#second').show();
                             codtran = response.codtran;
                         }
                     },

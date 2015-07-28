@@ -49,7 +49,7 @@ def git_locate():
         gitconfig_path = os.path.join(path, '.git/config')
         if os.path.isfile(gitconfig_path):
             release_py = os.path.join(path, 'openerp/release.py')
-            if os.path.isfile(rpoelease_py):
+            if os.path.isfile(release_py):
                 break
         path = os.path.dirname(path)
     if path == os.path.abspath(os.sep):
