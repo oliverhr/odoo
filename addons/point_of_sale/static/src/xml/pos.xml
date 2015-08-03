@@ -7,7 +7,7 @@
         <div class="pos">
             <div class="pos-topheader">
                 <div class="pos-branding">
-                    <img class="pos-logo" src="/point_of_sale/static/src/img/logo.png" />
+                    <img class="pos-logo" src="/point_of_sale/static/src/img/logo.svg" />
                     <span class="placeholder-UsernameWidget"></span>
                 </div>
                 <div class="pos-rightheader">
@@ -104,7 +104,7 @@
     <t t-name="SynchNotificationWidget">
         <div class="oe_status js_synch">
             <span class='js_msg oe_hidden'>0</span>
-            <div class="js_connected oe_icon oe_green">
+            <div class="js_connected oe_icon oe_white">
                 <i class='fa fa-fw fa-rss'></i>
             </div>
             <div class="js_connecting oe_icon oe_hidden">
@@ -119,7 +119,7 @@
     <t t-name="ProxyStatusWidget">
         <div class="oe_status js_proxy">
             <span class='js_msg oe_orange oe_hidden'></span>
-            <div class="js_connected oe_icon oe_green">
+            <div class="js_connected oe_icon oe_white">
                 <i class='fa fa-fw fa-sitemap'></i>
             </div>
             <div class="js_connecting oe_icon oe_hidden">
@@ -170,7 +170,7 @@
             <button class="input-button number-char">0</button>
             <button class="input-button number-char">.</button>
             <button class="input-button numpad-backspace">
-                <img src="/point_of_sale/static/src/img/backspace.png" width="24" height="21" />
+                <img src="/point_of_sale/static/src/img/backspace.png" width="24" height="24" />
             </button>
             <br />
         </div>
@@ -199,7 +199,7 @@
             <div class="breadcrumbs">
                 <span class="breadcrumb">
                     <span class=" breadcrumb-button js-category-switch">
-                        <img src="/point_of_sale/static/src/img/home.png" class="breadcrumb-homeimg" />
+                        <i class="fa fa-home breadcrumb-homeimg"></i>
                     </span>
                 </span>
                 <t t-foreach="widget.breadcrumb" t-as="category">
@@ -878,7 +878,7 @@
                 t-attf-pattern="[0-9]+([\\#{widget.decimal_point || '.' }][0-9]+)?"
                 step="0.01" t-att-value="line.get_amount_str()" />
             <span  class='paymentline-delete'>
-                <img src="/point_of_sale/static/src/img/search_reset.gif" />
+                <img src="/point_of_sale/static/src/img/ic_cancel_black_18dp.png" />
             </span>
         </div>
     </t>
@@ -890,7 +890,7 @@
             </td>
             <td class="paymentline-amount pos-right-align">
                 <input type="number" step="0.01" t-att-value="line.get_amount_str()" />
-                <span class='delete-payment-line'><img src="/point_of_sale/static/src/img/search_reset.gif" /></span>
+                <span class='delete-payment-line'><img src="/point_of_sale/static/src/img/ic_cancel_black_18dp.png" /></span>
             </td>
         </tr>
     </t>
@@ -1155,52 +1155,28 @@
     <t t-name="PademobilePopupWidget">
         <div class="modal-dialog">
             <div class="popup popup-pademobile">
-                <p class="message"><t t-esc=" widget.message || 'Pagar con Pademobile' " /></p>
-                <p class="comment"><t t-esc=" widget.comment || 'Ingrese la información para realizar el cobro' "/>.</p>
-
-                <hr/>
-                <br/>
+                <p class="message"><t t-esc=" widget.message || 'Pay with Pademobile' " /></p>
 
                 <div id="first">
-                    <p class="comment"><t t-esc=" widget.message_phone || 'Ingrese el número telefónico de su cliente' "/>.</p>
-                    <table align="center">
-                        <tr>
-                            <td>
-                                <label for="pdm_phone">Telefono:</label>
-                            </td>
-                            <td>
-                                <input type="text" id="pdm-telefono-text" name="pdm_phone" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input type="button" id="pdm-cobrar-button" value="Cobrar" />
-                            </td>
-                        </tr>
-                    </table>
+                    <p class="comment"><t t-esc=" widget.message_phone || 'Enter the Pademobile username or phone' "/>.</p>
+                    <div class="pdm_login">
+                        <label class="pdm_login__label" for="pdm_phone">User</label>
+                        <input class="pdm_login__input" type="text" id="pdm-telefono-text" name="pdm_phone" />
+                        <span class="pdm_login-error">The user doesn't exist</span>
+                    </div>
                 </div>
-
 
                 <div id="second">
-                    <p class="comment"><t t-esc=" widget.message_otp || 'Ingrese el OTP que su cliente recibio en móvil' "/>.</p>
-                    <table align="center">
-                        <tr>
-                            <td>
-                                <label for="pdm_otp">OTP:</label>
-                            </td>
-                            <td>
-                                <input type="text" id="pdm-otp-text" name="pdm_otp" maxlength="10" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input type="button" id="pdm-confirmar-button" value="Confirmar" maxlength="6" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                    <p class="comment"><t t-esc=" widget.message_otp || 'An OTP has been sent to your client via SMS' "/>.</p>
 
+                   <div class="pdm_login">
+                       <label class="pdm_login__label" for="pdm-otp">OTP</label>
+                       <input class="pdm_login__input" type="text" id="pdm-otp-text" name="pdm_otp" maxlength="10" />
+                   </div>
+                </div>
                 <div class="footer">
+                    <div class="button" id="pdm-cobrar-button">Cobrar</div>
+                    <div class="button" id="pdm-confirmar-button">Confirmar</div>
                     <div class="button cancel">Cancel</div>
                 </div>
             </div>

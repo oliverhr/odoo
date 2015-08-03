@@ -1453,6 +1453,8 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
 
             $('#first').show();
             $('#second').hide();
+            $('#pdm-cobrar-button').show();
+            $('#pdm-confirmar-button').hide();
 
             this.$('.button.cancel').click(function(){
                 self.pos_widget.screen_selector.close_popup();
@@ -1543,6 +1545,8 @@ function openerp_pos_screens(instance, module){ //module is instance.point_of_sa
                         if (response.status) {
                             $('#first').hide();
                             $('#second').show();
+                            $('#pdm-cobrar-button').hide();
+                            $('#pdm-confirmar-button').show()
                             codtran = response.codtran;
                         }
                     },
