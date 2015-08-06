@@ -262,7 +262,7 @@ td {
     margin:0;
     padding:0;
     color: gray;
-    background: #F57D4B;
+    background: #0099aa;
 }
 
 /*  a) The left part of the top-bar */
@@ -551,7 +551,7 @@ td {
 .pos .popup  button:active{
     border: none;
     color: white;
-    background: #4DBFA0;
+    background: #33cc77;
 }
 
 /*  ********* The Numpad ********* */
@@ -792,7 +792,7 @@ td {
     /*background:#FFF;*/
     padding: 3px;
     padding-top: 15px;
-    color: #7C7BAD;
+    color: #0099aa;
 }
 
 /*  e) the product */
@@ -835,7 +835,7 @@ td {
     vertical-align: top;
     color: white;
     line-height: 13px;
-    background: #4DBFA0;
+    background: #33cc77;
     padding: 2px 5px;
     border-radius: 2px;
 }
@@ -1626,7 +1626,7 @@ td {
 }
 .pos .pos-actionbar .button:active{
     color: white;
-    background: #4DBFA0;
+    background: #33cc77;
     border: 1px solid rgba(0,0,0,0.12);
 
     -webkit-transition-property: background, border;
@@ -1801,7 +1801,7 @@ td {
 }
 .pos .popup .button:active{
     color: white;
-    background: #4DBFA0;
+    background: #33cc77;
     border: 1px solid rgba(0,0,0,0.12);
 
     -webkit-transition-property: background, border;

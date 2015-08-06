@@ -169,9 +169,9 @@
                     </div>
                 </div>
             </div>
-            <div class="oe_footer">
-                Powered by <a href="http://www.odoo.com" target="_blank"><span>Odoo</span></a>
-            </div>
+            <!--<div class="oe_footer">-->
+                <!--Powered by <a href="http://www.pademobile.com" target="_blank"><span>Pademobile</span></a>-->
+            <!--</div>-->
         </template>
         <template id="web.menu_secondary_submenu">
             <ul t-if="menu['children']" class="oe_secondary_submenu nav nav-pills nav-stacked">
